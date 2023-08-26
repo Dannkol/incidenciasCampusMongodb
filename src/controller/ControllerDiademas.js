@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import diademas from "../module/diademas.js";
 
 const getAllDiademas = async (req, res) => {
@@ -29,14 +30,19 @@ const updateDiademas = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json(error);
-    }finally{
-        res.end();
     }
 }
 
 const createDiadema = async (req, res) => {
     try {
-        const createDiadema = await diademas.createDiadema(req.body);
+        const id = new ObjectId()
+        const data = {
+            _id : id,
+            id: id,
+            marca: req.body.marca,
+            description: req.body.description,
+        }
+        const createDiadema = await diademas.createDiadema(data);
         res.status(200).json({
             messeger : "Create diademas",
             data : createDiadema
@@ -44,8 +50,6 @@ const createDiadema = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json(error);
-    }finally{
-        res.end();
     }
 }
 
@@ -61,8 +65,6 @@ const deleteDiadema = async (req, res) => {
         res.status(500).json({
             messeger : `Error deleting ${error.sqlState}`
         });
-    }finally{
-        res.end();
     }
 }
 
