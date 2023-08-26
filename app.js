@@ -19,7 +19,7 @@ app.use(express.json());
 
 app.use(express.urlencoded({extended: true}));
 
-app.use(version(
+app.use('/equipo',version(
     {
         "1.0.0" : routas_eqioposv1
     }
