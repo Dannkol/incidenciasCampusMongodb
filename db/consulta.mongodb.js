@@ -299,22 +299,6 @@ db.historial_insidencia_usuarios.aggregate([
   },
   {
     $lookup: {
-      from: "insidencia_categoria",
-      localField: "insidencia.categoria_id",
-      foreignField: "id",
-      as: "categoria",
-    },
-  },
-  {
-    $lookup: {
-      from: "insidencia_nivel",
-      localField: "insidencia.nivel_id",
-      foreignField: "id",
-      as: "nivel",
-    },
-  },
-  {
-    $lookup: {
       from: "lugares",
       localField: "insidencia.lugar_id",
       foreignField: "id",
@@ -330,19 +314,13 @@ db.historial_insidencia_usuarios.aggregate([
     },
   },
   {
-    $unwind: "$categoria",
-  },
-  {
-    $unwind: "$nivel",
-  },
-  {
     $unwind: "$lugar",
   },
   {
     $unwind: "$equipo",
   },
   {
-    $match: { "nivel.nombre": "critica" },
+    $match: { "insidencia.nivel": 8 },
   },
   {
     $project: {
@@ -350,8 +328,8 @@ db.historial_insidencia_usuarios.aggregate([
       nombre: "$insidencia.nombre",
       descripcion: "$insidencia.descripcion",
       equipo: "$equipo.nombre",
-      categoria: "$categoria.nombre",
-      nivel: "$nivel.nombre",
+      categoria: "$insidencia.categoria",
+      nivel: "$insidencia.nivel",
       lugar: "$lugar.nombre",
     },
   },
@@ -531,25 +509,15 @@ db.historial_insidencia_usuarios.aggregate([
   },
 ]);
 
-use("incidensias");
 
-// Primero, inserta infoEmpresarial
-db.infoempresarial.insertOne({
-  id: 1,
-  emailCoor: "jholver@campuslands.com",
-  telFijoCoor: "6785868",
-  telMovCoor: "+579317458962",
-});
 
-// Luego, crea el usuario y asocia el tipo de documento e infoEmpresarial
+// Luego, crea el usuario
 db.usuarios.insertOne({
   id: 1,
   nombre: "jholver",
   apellidos: "rodriguez",
   password: "12345",
   doc_usuario: 12324,
-  tipoDocumento_id: 1,
-  infoEmpresarial_id: 1,
   telefono: "+1658742",
   movile: "+5734158924",
   email: "devjgi@gmail.com",

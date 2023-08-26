@@ -1,71 +1,15 @@
 use("incidensias");
 
-db.createCollection("tipodocumento", {
-  validator: {
-    $jsonSchema: {
-      bsonType: "object",
-      title: "Tipo Documento",
-      required: ["id", "nombre", "abreviacion"],
-      properties: {
-        id: {
-          bsonType: "number",
-          description: "Id of tipo document",
-        },
-        nombre: {
-          bsonType: "string",
-          maxLength: 150,
-          description: "Nombre de tipo document",
-        },
-        abreviacion: {
-          bsonType: "string",
-          maxLength: 50,
-          description: "abreviacion de tipo document",
-        },
-      },
-    },
-  },
-});
-
-use("incidensias");
-
-db.createCollection("infoEmpresarial", {
-  validator: {
-    $jsonSchema: {
-      bsonType: "object",
-      title: "Info Empresarial",
-      properties: {
-        id: {
-          bsonType: "number",
-          description: "Id del tipo document",
-        },
-        emailCoor: {
-          bsonType: "string",
-          maxLength: 150,
-          description: "Email del tipo document",
-        },
-        telFijoCoor: {
-          bsonType: "string",
-          maxLength: 150,
-          description: "Tel de tipo document",
-        },
-        telMovCoor: {
-          bsonType: "string",
-          maxLength: 150,
-          description: "Tel de tipo document",
-        },
-      },
-      required: ["id", "emailCoor", "telFijoCoor", "telMovCoor"],
-    },
-  },
-});
-
 db.createCollection("usuarios", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
       title: "usuarios",
       properties: {
-        id: { bsonType: "number", description: "id of the user" },
+        id: {anyOf: [
+          { bsonType: "objectId", description: "id is required" },
+          { bsonType: "int", description: "id is required" },
+        ], },
         nombre: {
           bsonType: "string",
           maxLength: 150,
@@ -85,14 +29,12 @@ db.createCollection("usuarios", {
           bsonType: "number",
           description: "id of the docusuario",
         },
-        tipoDocumento_id: {
-          bsonType: "number",
-          description: "id of the tipo document",
-        },
-        infoEmpresarial_id: {
-          bsonType: "number",
-          description: "id of the info",
-        },
+        rol : {
+          bsonType : "number",
+          description : "rol del usuario",
+          minimum: 1,
+          maximum: 2,
+        }
       },
       required: [
         "id",
@@ -100,14 +42,13 @@ db.createCollection("usuarios", {
         "apellidos",
         "password",
         "doc_usuario",
-        "tipoDocumento_id",
-        "infoEmpresarial_id",
+        "rol"
       ],
     },
   },
 });
 
-use("incidensias")
+use("incidensias");
 
 db.createCollection("lugares", {
   validator: {
@@ -116,7 +57,10 @@ db.createCollection("lugares", {
       title: "Lugares",
       required: ["id", "nombre", "description"],
       properties: {
-        id: { bsonType: "number", description: "id is requiered" },
+        id: {  anyOf: [
+          { bsonType: "objectId", description: "id is required" },
+          { bsonType: "int", description: "id is required" },
+        ], },
         nombre: {
           bsonType: "string",
           maxLength: 150,
@@ -141,7 +85,10 @@ db.createCollection("areas", {
       title: "areas",
       required: ["id", "nombre", "description"],
       properties: {
-        id: { bsonType: "number", description: "id is required" },
+        id: { anyOf: [
+          { bsonType: "objectId", description: "id is required" },
+          { bsonType: "int", description: "id is required" },
+        ], },
         nombre: {
           bsonType: "string",
           maxLength: 150,
@@ -164,8 +111,14 @@ db.createCollection("lugares_areas", {
       title: "lugares_areas",
       required: ["lugar_id", "area_id"],
       properties: {
-        lugar_id: { bsonType: "number", description: "lugar_id is required" },
-        area_id: { bsonType: "number", description: "area_id is required" },
+        lugar_id: {          anyOf: [
+          { bsonType: "objectId", description: "area_id is required" },
+          { bsonType: "int", description: "usuarios_id is required" },
+        ], },
+        area_id: {          anyOf: [
+          { bsonType: "objectId", description: "area_id is required" },
+          { bsonType: "int", description: "area_id is required" },
+        ], },
       },
     },
   },
@@ -179,12 +132,16 @@ db.createCollection("usuarios_lugares", {
       required: ["lugares_id", "usuarios_id"],
       properties: {
         lugares_id: {
-          bsonType: "number",
-          description: "lugares_id is required",
+          anyOf: [
+            { bsonType: "objectId", description: "lugar_id is required" },
+            { bsonType: "int", description: "lugar_id is required" },
+          ],
         },
         usuarios_id: {
-          bsonType: "number",
-          description: "usuarios_id is required",
+          anyOf: [
+            { bsonType: "objectId", description: "usuarios_id is required" },
+            { bsonType: "int", description: "usuarios_id is required" },
+          ],
         },
       },
     },
@@ -200,7 +157,12 @@ db.createCollection("equipos", {
       title: "equipos",
       required: ["id", "nombre", "description", "lugar_id"],
       properties: {
-        id: { bsonType: "number", description: "id is required" },
+        id: {
+          anyOf: [
+            { bsonType: "objectId", description: "id is required" },
+            { bsonType: "int", description: "id is required" },
+          ],
+        },
         nombre: {
           bsonType: "string",
           maxLength: 150,
@@ -211,7 +173,12 @@ db.createCollection("equipos", {
           maxLength: 255,
           description: "description is required",
         },
-        lugar_id: { bsonType: "number", description: "lugar_id is required" },
+        lugar_id: {
+          anyOf: [
+            { bsonType: "objectId", description: "lugar_id is required" },
+            { bsonType: "int", description: "lugar_id is required" },
+          ],
+        },
       },
     },
   },
@@ -224,7 +191,12 @@ db.createCollection("accesorio_teclado", {
       title: "accesorio_teclado",
       required: ["id", "marca", "description"],
       properties: {
-        id: { bsonType: "number", description: "id is required" },
+        id: {
+          anyOf: [
+            { bsonType: "objectId", description: "id is required" },
+            { bsonType: "int", description: "id is required" },
+          ],
+        },
         marca: {
           bsonType: "string",
           maxLength: 150,
@@ -247,7 +219,12 @@ db.createCollection("accesorio_mouse", {
       title: "accesorio_mouse",
       required: ["id", "marca", "description"],
       properties: {
-        id: { bsonType: "number", description: "id is required" },
+        id: {
+          anyOf: [
+            { bsonType: "objectId", description: "id is required" },
+            { bsonType: "int", description: "id is required" },
+          ],
+        },
         marca: {
           bsonType: "string",
           maxLength: 150,
@@ -272,7 +249,12 @@ db.createCollection("accesorio_diademas", {
       title: "accesorio_diademas",
       required: ["id", "marca", "description"],
       properties: {
-        id: { bsonType: "number", description: "id is required" },
+        id: {
+          anyOf: [
+            { bsonType: "objectId", description: "id is required" },
+            { bsonType: "int", description: "id is required" },
+          ],
+        },
         marca: {
           bsonType: "string",
           maxLength: 150,
@@ -301,63 +283,43 @@ db.createCollection("equipos_acc_lugar", {
       ],
       properties: {
         equipos_id: {
-          bsonType: "number",
-          description: "equipos_id is required",
+          anyOf: [
+            { bsonType: "objectId", description: "equipos_id is required" },
+            { bsonType: "int", description: "equipos_id is required" },
+          ],
         },
         accesorios_mouse_id: {
-          bsonType: "int",
-          description: "accesorios_mouse_id is required",
+          anyOf: [
+            {
+              bsonType: "objectId",
+              description: "accesorios_mouse_id is required",
+            },
+            { bsonType: "int", description: "accesorios_mouse_id is required" },
+          ],
         },
         accesorios_teclado_id: {
-          bsonType: "number",
-          description: "accesorios_teclado_id is required",
+          anyOf: [
+            {
+              bsonType: "objectId",
+              description: "accesorios_teclado_id is required",
+            },
+            {
+              bsonType: "int",
+              description: "accesorios_teclado_id is required",
+            },
+          ],
         },
         accesorios_diademas_id: {
-          bsonType: "number",
-          description: "accesorios_diademas_id is required",
-        },
-      },
-    },
-  },
-});
-
-use("incidensias");
-
-db.createCollection("insidencia_categoria", {
-  validator: {
-    $jsonSchema: {
-      bsonType: "object",
-      title: "insidencia_categoria",
-      required: ["id", "nombre", "descripcion"],
-      properties: {
-        id: { bsonType: "number", description: "id is required" },
-        nombre: {
-          bsonType: "string",
-          maxLength: 150,
-          description: "nombre is required",
-        },
-        descripcion: {
-          bsonType: "string",
-          maxLength: 255,
-          description: "descripcion is required",
-        },
-      },
-    },
-  },
-});
-
-db.createCollection("insidencia_nivel", {
-  validator: {
-    $jsonSchema: {
-      bsonType: "object",
-      title: "insidencia_nivel",
-      required: ["id", "nombre"],
-      properties: {
-        id: { bsonType: "number", description: "id is required" },
-        nombre: {
-          bsonType: "string",
-          maxLength: 150,
-          description: "nombre is required",
+          anyOf: [
+            {
+              bsonType: "objectId",
+              description: "accesorios_diademas_id is required",
+            },
+            {
+              bsonType: "int",
+              description: "accesorios_diademas_id is required",
+            },
+          ],
         },
       },
     },
@@ -378,11 +340,16 @@ db.createCollection("insidencias", {
         "equipo_id",
         "lugar_id",
         "fecha",
-        "nivel_id",
-        "categoria_id",
+        "nivel",
+        "categoria",
       ],
       properties: {
-        id: { bsonType: "number", description: "id is required" },
+        id: {
+          anyOf: [
+            { bsonType: "objectId", description: "id is required" },
+            { bsonType: "int", description: "id is required" },
+          ],
+        },
         nombre: {
           bsonType: "string",
           maxLength: 150,
@@ -393,30 +360,55 @@ db.createCollection("insidencias", {
           maxLength: 255,
           description: "descripcion is required",
         },
-        equipo_id: { bsonType: "number", description: "equipo_id is required" },
-        lugar_id: { bsonType: "number", description: "lugar_id is required" },
+        equipo_id: {
+          anyOf: [
+            { bsonType: "objectId", description: "equipo_id is required" },
+            { bsonType: "int", description: "equipo_id is required" },
+          ],
+        },
+        lugar_id: {
+          anyOf: [
+            { bsonType: "objectId", description: "lugar_id is required" },
+            { bsonType: "int", description: "lugar_id is required" },
+          ],
+        },
         fecha: { bsonType: "date", description: "fecha is required" },
-        nivel_id: { bsonType: "number", description: "nivel_id is required" },
-        categoria_id: {
-          bsonType: "number",
-          description: "categoria_id is required",
+        nivel: {
+          bsonType: "int",
+          description: "Nivel válido",
+          minimum: 1,
+          maximum: 10,
+        },
+        categoria: {
+          bsonType: "string",
+          description: "Categoría válida",
+          enum: ["software", "hardware", "red"],
         },
       },
     },
   },
 });
 
-db.createCollection("Historial_insidencia_usuarios", {
+use("incidensias");
+
+db.createCollection("historial_insidencia_usuarios", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
       title: "Historial_insidencia_usuarios",
       required: ["usuario_id", "insidencia_id"],
       properties: {
-        usuario_id: { bsonType: "number", description: "usuario_id is required" },
+        usuario_id: {
+          anyOf: [
+            { bsonType: "objectId", description: "usuario_id is required" },
+            { bsonType: "int", description: "usuario_id is required" },
+          ],
+        },
         insidencia_id: {
-          bsonType: "number",
-          description: "insidencia_id is required",
+          anyOf: [
+            { bsonType: "objectId", description: "insidencia_id is required" },
+            { bsonType: "int", description: "insidencia_id is required" },
+          ],
         },
       },
     },

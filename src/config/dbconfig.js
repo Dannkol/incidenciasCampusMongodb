@@ -8,7 +8,6 @@ const uri = `mongodb+srv://${process.env.ATLAS_USER}:${process.env.ATLAS_PASSWOR
 let client = null;
 
 const mongoConn = async () => {
-  if (client) return client;
   try {
     const options = {
       wtimeout: 2500,

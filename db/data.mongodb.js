@@ -1,37 +1,5 @@
 use("incidensias");
 
-db.insidencia_nivel.insertMany([
-  { id: 1, nombre: "level" },
-  { id: 2, nombre: "moderada" },
-  { id: 3, nombre: "critica" },
-]);
-
-db.insidencia_categoria.insertMany([
-  {
-    id: 1,
-    nombre: "software",
-    description:
-      "todas las insidencias relacionadas con software en la maquina",
-  },
-  {
-    id: 2,
-    nombre: "hardware",
-    description:
-      "todas las insidencias relacionadas con hardware en la maquina",
-  },
-]);
-
-use("incidensias");
-
-db.tipodocumento.insertMany([
-  { id: 1, nombre: "Cedula de ciudadania", abreviacion: "CC" },
-  { id: 2, nombre: "Tarjeta de identidad", abreviacion: "TI" },
-  { id: 3, nombre: "Pasaporte", abreviacion: "PS" },
-  { id: 4, nombre: "Cedula de Extrangeria", abreviacion: "CE" },
-]);
-
-use("incidensias");
-
 db.lugares.insertMany([
   { id: 1, nombre: "apolo", description: "Salon de clase" },
   { id: 2, nombre: "artemis", description: "Salon de clase" },
@@ -52,6 +20,9 @@ db.lugares.insertMany([
     description: "Salon de clasa para aprendizaje autonomo",
   },
 ]);
+
+use("incidensias");
+
 db.areas.insertMany([
   {
     id: 1,
@@ -70,6 +41,8 @@ db.areas.insertMany([
     description: "Salones para el aprendiza autonomo",
   },
 ]);
+use("incidensias");
+
 db.lugares_areas.insertMany([
   { id: 1, lugar_id: 1, area_id: 1 },
   { id: 2, lugar_id: 2, area_id: 1 },
@@ -203,14 +176,7 @@ db.equipos_acc_lugar.insertMany([
   },
 ]);
 
-db.infoempresarial.insertMany([
-  {
-    id: 1,
-    emailCoor: "jholver@campuslands.com",
-    telFijoCoor: "6785868",
-    telMovCoor: "+579317458962",
-  },
-]);
+use("incidensias");
 
 db.usuarios.insertMany([
   {
@@ -219,15 +185,18 @@ db.usuarios.insertMany([
     apellidos: "rodriguez",
     password: "12345",
     doc_usuario: 12324,
-    tipoDocumento_id: 1,
-    infoEmpresarial_id: 1,
     telefono: "+1658742",
     movile: "+5734158924",
     email: "devjgi@gmail.com",
+    rol: 1
   },
 ]);
 
+use("incidensias");
+
 db.usuarios_lugares.insertMany([{ id: 1, lugares_id: 1, usuarios_id: 1 }]);
+
+use("incidensias");
 
 db.insidencias.insertMany([
   {
@@ -238,11 +207,20 @@ db.insidencias.insertMany([
     equipo_id: 1,
     lugar_id: 1,
     fecha: new Date("2023-07-15"),
-    nivel_id: 3,
-    categoria_id: 2,
+    nivel: 8,
+    categoria: "hardware"
   },
 ]);
 
+use("incidensias");
+
+
 db.historial_insidencia_usuarios.insertMany([
   { id: 1, usuario_id: 1, insidencia_id: 1 },
+]);
+
+use("incidensias");
+
+db.historial_insidencia_usuarios.insertMany([
+  { id: ObjectId(), usuario_id: ObjectId(), insidencia_id: 1 },
 ]);
