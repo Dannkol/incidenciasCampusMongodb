@@ -372,6 +372,12 @@ db.createCollection("insidencias", {
             { bsonType: "int", description: "lugar_id is required" },
           ],
         },
+        user_id: {
+          anyOf: [
+            { bsonType: "objectId", description: "user_id is required" },
+            { bsonType: "int", description: "user_id is required" },
+          ],
+        },
         fecha: { bsonType: "date", description: "fecha is required" },
         nivel: {
           bsonType: "int",

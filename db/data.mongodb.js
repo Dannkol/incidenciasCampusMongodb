@@ -190,6 +190,17 @@ db.usuarios.insertMany([
     email: "devjgi@gmail.com",
     rol: 1
   },
+  {
+    id: 2,
+    nombre: "daniel",
+    apellidos: "rodriguez",
+    password: "12345",
+    doc_usuario: 12324,
+    telefono: "+1658742",
+    movile: "+5734158924",
+    email: "daniel@gmail.com",
+    rol: 2
+  }
 ]);
 
 use("incidensias");
@@ -206,6 +217,7 @@ db.insidencias.insertMany([
       "El camper daniel comento que el pc no encencia, una primera comprovacion muesta que es verdad",
     equipo_id: 1,
     lugar_id: 1,
+    user_id : 1,
     fecha: new Date("2023-07-15"),
     nivel: 8,
     categoria: "hardware"
@@ -224,4 +236,12 @@ use("incidensias");
 db.versiones.insertOne({
   versiones : "1.0.0",
   id_usuario : 1,
+})
+
+
+use("incidensias");
+
+db.versiones.insertOne({
+  versiones : "2.0.0",
+  id_usuario : 2,
 })

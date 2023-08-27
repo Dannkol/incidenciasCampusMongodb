@@ -20,6 +20,12 @@ async function version(version, data) {
         $unwind: "$usuario_info", 
       },
       {
+        $match: {
+          "usuario_info.nombre": data.nombre,
+          "usuario_info.email":  data.email,
+        },
+      },
+      {
         $project: {
           _id: 0, 
           "usuario_info.nombre": 1, 
@@ -46,7 +52,6 @@ const auth_validator = [
     .notEmpty()
     .withMessage("version no especificada")
     .custom(async (value, { req }) => {
-      console.log("fa", value);
       if (value) {
         const promises = [];
         promises.push(version(value, req.body));

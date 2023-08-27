@@ -14,8 +14,6 @@ const authorization = async (req, res) => {
     if (result.isEmpty()) {
       const user = await findUser(req.body);
 
-      console.log(req.body);
-
       const auth =
         user.email === req.body.email && user.password == req.body.password;
       if (!auth) {
@@ -23,7 +21,7 @@ const authorization = async (req, res) => {
       } else {
         // Generar el token JWT
         const token = jwt.sign(
-          { id: user.id, nombre: user.nombre, rol: user.rol },
+          { id: user.id, nombre: user.nombre, rol: user.rol , email: user.email},
           secretKey,
           {
             expiresIn: "1h",
