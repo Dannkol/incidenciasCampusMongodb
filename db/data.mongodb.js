@@ -221,6 +221,7 @@ db.historial_insidencia_usuarios.insertMany([
 
 use("incidensias");
 
-db.historial_insidencia_usuarios.insertMany([
-  { id: ObjectId(), usuario_id: ObjectId(), insidencia_id: 1 },
-]);
+db.versiones.insertOne({
+  versiones : "1.0.0",
+  id_usuario : 1,
+})

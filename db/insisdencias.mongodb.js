@@ -414,3 +414,27 @@ db.createCollection("historial_insidencia_usuarios", {
     },
   },
 });
+
+use("incidensias");
+
+db.createCollection("versiones", {
+  validator : {
+    $jsonSchema : {
+      bsonType : "object",
+      title : "versiones",
+      required : ["versiones", "id_usuario"],
+      properties : {
+        versiones : {
+          bsonType : "string",
+          description : "versiones permitidas"
+        },
+        id_usuario : {
+          anyOf: [
+            { bsonType: "objectId", description: "id_usuario is required" },
+            { bsonType: "int", description: "id_usuario is required" },
+          ]
+        }
+      }
+    }
+  }
+})
